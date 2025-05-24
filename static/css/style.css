@@ -1,0 +1,292 @@
+/* Custom CSS for Artisan Crafts */
+
+:root {
+    --primary-color: 212 87% 49%;
+    --secondary-color: 30 70% 70%;
+    --accent-color: 92 40% 40%;
+    --background: 210 11% 98%;
+    --card-background: 0 0% 100%;
+    --text-primary: 220 13% 18%;
+    --text-secondary: 220 9% 46%;
+    --border-color: 220 13% 91%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--text-primary));
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    min-height: 500px;
+}
+
+.hero-image svg {
+    max-width: 100%;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+/* Product Cards */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid hsl(var(--border-color));
+    background-color: hsl(var(--card-background));
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.product-card .card-img-top {
+    height: 250px;
+    object-fit: cover;
+    background-color: hsl(var(--background));
+}
+
+.product-placeholder {
+    height: 250px;
+    background-color: hsl(var(--background));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: hsl(var(--text-secondary));
+}
+
+.product-price {
+    font-size: 1.1rem;
+}
+
+/* Category Cards */
+.category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid hsl(var(--border-color));
+    background-color: hsl(var(--card-background));
+}
+
+.category-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.category-card .card-body {
+    padding: 1.5rem;
+}
+
+.category-card .fa-3x {
+    color: hsl(var(--primary-color));
+}
+
+/* Promo Banner */
+.promo-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    margin: 3rem 0;
+}
+
+/* Navigation */
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: -0.5px;
+}
+
+.navbar-nav .nav-link {
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: hsl(var(--primary-color));
+    border-color: hsl(var(--primary-color));
+}
+
+.btn-primary:hover {
+    background-color: hsl(212 87% 42%);
+    border-color: hsl(212 87% 42%);
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    color: hsl(var(--primary-color));
+    border-color: hsl(var(--primary-color));
+}
+
+.btn-outline-primary:hover {
+    background-color: hsl(var(--primary-color));
+    border-color: hsl(var(--primary-color));
+    transform: translateY(-1px);
+}
+
+/* Cards */
+.card {
+    border: 1px solid hsl(var(--border-color));
+    border-radius: 12px;
+    background-color: hsl(var(--card-background));
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    border-bottom: 1px solid hsl(var(--border-color));
+    border-radius: 12px 12px 0 0 !important;
+}
+
+/* Forms */
+.form-control {
+    border: 1px solid hsl(var(--border-color));
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: hsl(var(--primary-color));
+    box-shadow: 0 0 0 0.2rem hsla(var(--primary-color), 0.25);
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+/* Quantity Controls */
+.quantity-controls .btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Pagination */
+.pagination .page-link {
+    color: hsl(var(--primary-color));
+    border: 1px solid hsl(var(--border-color));
+    border-radius: 8px;
+    margin: 0 2px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: hsl(var(--primary-color));
+    border-color: hsl(var(--primary-color));
+}
+
+/* Badge customizations */
+.badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* Table styling */
+.table {
+    color: hsl(var(--text-primary));
+}
+
+.table-hover tbody tr:hover {
+    background-color: hsl(var(--background));
+}
+
+/* Footer */
+footer {
+    background-color: #212529 !important;
+}
+
+footer a {
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: hsl(var(--primary-color)) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 400px;
+    }
+    
+    .hero-section .display-4 {
+        font-size: 2rem;
+    }
+    
+    .product-card .card-img-top,
+    .product-placeholder {
+        height: 200px;
+    }
+}
+
+/* Loading animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.product-card,
+.category-card {
+    animation: fadeIn 0.6s ease-out;
+}
+
+/* Artisan avatar styling */
+.artisan-avatar svg {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Product detail page specific styles */
+.product-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.product-image-container img {
+    transition: transform 0.3s ease;
+}
+
+.product-image-container:hover img {
+    transform: scale(1.05);
+}
+
+/* Tab styling */
+.nav-tabs .nav-link {
+    color: hsl(var(--text-secondary));
+    border: 1px solid transparent;
+    border-radius: 8px 8px 0 0;
+}
+
+.nav-tabs .nav-link.active {
+    color: hsl(var(--primary-color));
+    background-color: hsl(var(--card-background));
+    border-color: hsl(var(--border-color)) hsl(var(--border-color)) hsl(var(--card-background));
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: hsl(var(--text-secondary));
+}
+
+.breadcrumb-item a {
+    color: hsl(var(--primary-color));
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
