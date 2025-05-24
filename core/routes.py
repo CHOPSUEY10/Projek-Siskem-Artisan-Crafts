@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for, flash, session, jsonify
 from sqlalchemy import or_, and_
+from datetime import datetime
 from core import bp
 from models import Item, Category, Order, OrderItem, User, Coupon
 from forms import CheckoutForm, CouponForm
@@ -197,7 +198,7 @@ def checkout():
         
         # For demo purposes, complete the order
         order.ordered = True
-        order.ordered_date = db.datetime.utcnow()
+        order.ordered_date = datetime.utcnow()
         db.session.commit()
         
         flash('Order placed successfully!', 'success')
