@@ -1,0 +1,208 @@
+{% extends 'flask_base.html' %}
+
+{% block title %}Artisan Crafts - Handmade with Love{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h1 class="display-4 fw-bold">Handcrafted with Care</h1>
+                <p class="lead mb-4">Discover unique artisan crafts from around the world. Each piece tells a story and supports traditional craftsmanship.</p>
+                <div class="d-grid gap-2 d-md-flex">
+                    <a href="{{ url_for('products') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-shopping-bag me-2"></i>Shop Now
+                    </a>
+                    <a href="#categories" class="btn btn-outline-primary btn-lg px-4">
+                        Explore Categories
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image">
+                    <svg width="500" height="400" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Pottery/Vase -->
+                        <path d="M220,70 C180,100 170,150 170,200 C170,250 180,330 220,350 C260,330 270,250 270,200 C270,150 260,100 220,70" fill="#e6b17e" />
+                        <path d="M220,70 C200,90 190,110 190,120 C190,140 220,140 220,140 C220,140 250,140 250,120 C250,110 240,90 220,70" fill="#bb9a7c" />
+                        <ellipse cx="220" cy="350" rx="50" ry="10" fill="#5c7c67" />
+                        <path d="M220,140 C200,150 190,170 190,190 C190,210 200,240 220,250 C240,240 250,210 250,190 C250,170 240,150 220,140" fill="#bb9a7c" opacity="0.5" />
+                        
+                        <!-- Decorative Elements -->
+                        <path d="M210,170 Q220,180 230,170 Q240,160 210,170" fill="#fff" opacity="0.6" />
+                        <path d="M200,210 Q220,230 240,210 Q250,200 200,210" fill="#fff" opacity="0.6" />
+                        
+                        <!-- Background Decorative Elements -->
+                        <circle cx="150" cy="100" r="20" fill="#5c7c67" opacity="0.2" />
+                        <circle cx="290" cy="90" r="15" fill="#bb9a7c" opacity="0.2" />
+                        <circle cx="130" cy="280" r="25" fill="#e6b17e" opacity="0.2" />
+                        <circle cx="310" cy="260" r="18" fill="#5c7c67" opacity="0.2" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Categories -->
+<section class="py-5" id="categories">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Explore Categories</h2>
+            <p class="lead">Discover handcrafted treasures from skilled artisans around the world</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-md-4">
+                <div class="card category-card h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            {% if category.code == 'PT' %}
+                            <i class="fas fa-shapes fa-3x"></i>
+                            {% elif category.code == 'JW' %}
+                            <i class="fas fa-gem fa-3x"></i>
+                            {% elif category.code == 'TX' %}
+                            <i class="fas fa-tshirt fa-3x"></i>
+                            {% elif category.code == 'WD' %}
+                            <i class="fas fa-tree fa-3x"></i>
+                            {% elif category.code == 'HM' %}
+                            <i class="fas fa-home fa-3x"></i>
+                            {% else %}
+                            <i class="fas fa-palette fa-3x"></i>
+                            {% endif %}
+                        </div>
+                        <h3 class="card-title">{{ category.name }}</h3>
+                        <p class="card-text">Discover beautiful handcrafted {{ category.name.lower() }} from skilled artisans.</p>
+                        <a href="{{ url_for('products', category=category.code) }}" class="btn btn-outline-primary">
+                            View Collection
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Featured Products</h2>
+            <p class="lead">Handpicked selections from our artisan collection</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card product-card h-100">
+                    {% if product.image_url %}
+                    <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.title }}">
+                    {% else %}
+                    <div class="product-placeholder">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-primary">
+                                {{ product.category.name }}
+                            </span>
+                            {% if product.discount_price %}
+                            <span class="badge bg-danger">Sale</span>
+                            {% endif %}
+                        </div>
+                        <h5 class="card-title">{{ product.title }}</h5>
+                        <div class="product-price mb-3">
+                            {% if product.discount_price %}
+                            <span class="text-muted text-decoration-line-through me-2">${{ product.price }}</span>
+                            <span class="fw-bold text-danger">${{ product.discount_price }}</span>
+                            {% else %}
+                            <span class="fw-bold">${{ product.price }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a href="{{ url_for('product_detail', slug=product.slug) }}" class="btn btn-outline-primary">View Details</a>
+                            <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{{ url_for('products') }}" class="btn btn-lg btn-outline-primary">
+                View All Products <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Promo Banner -->
+<section class="py-5">
+    <div class="container">
+        <div class="promo-banner p-5 text-white">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mb-4 mb-lg-0">
+                    <h2 class="fw-bold">Handcrafted Items, Perfect for Gifts</h2>
+                    <p class="lead mb-0">Use code ARTISAN15 for 15% off your first order</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a href="{{ url_for('products') }}" class="btn btn-light btn-lg">Shop Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Artisan Benefits -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Why Choose Artisan Crafts?</h2>
+            <p class="lead">The benefits of supporting handcrafted work</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 benefit-card">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-hands fa-3x"></i>
+                        </div>
+                        <h3>Unique & Handmade</h3>
+                        <p>Each item is carefully crafted by hand, ensuring you receive a one-of-a-kind piece with character and soul.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 benefit-card">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-users fa-3x"></i>
+                        </div>
+                        <h3>Support Artisans</h3>
+                        <p>Your purchase directly supports skilled artisans and helps preserve traditional crafting techniques from around the world.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 benefit-card">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <i class="fas fa-leaf fa-3x"></i>
+                        </div>
+                        <h3>Sustainable Practices</h3>
+                        <p>Many of our artisans use sustainable materials and eco-friendly practices, helping reduce environmental impact.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

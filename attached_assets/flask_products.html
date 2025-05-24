@@ -1,0 +1,212 @@
+{% extends 'flask_base.html' %}
+
+{% block title %}Shop Artisan Crafts{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Shop</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-lg-3 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Categories</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('products') }}" class="list-group-item list-group-item-action{% if not request.args.get('category') %} active{% endif %}">
+                        All Products
+                    </a>
+                    {% for cat_code, cat_name in categories %}
+                    <a href="{{ url_for('products', category=cat_code) }}" class="list-group-item list-group-item-action{% if request.args.get('category') == cat_code %} active{% endif %}">
+                        {{ cat_name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Price Range</h5>
+                </div>
+                <div class="card-body">
+                    <form method="GET" action="{{ url_for('products') }}" class="price-filter-form">
+                        {% if request.args.get('category') %}
+                        <input type="hidden" name="category" value="{{ request.args.get('category') }}">
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="min_price" class="form-label">Min Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="min_price" name="min_price" min="0" value="{{ request.args.get('min_price', '') }}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="max_price" class="form-label">Max Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="max_price" name="max_price" min="0" value="{{ request.args.get('max_price', '') }}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Sorting</h5>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('products', category=request.args.get('category', '')) }}" class="list-group-item list-group-item-action{% if not request.args.get('sort') %} active{% endif %}">
+                        Default
+                    </a>
+                    <a href="{{ url_for('products', category=request.args.get('category', ''), sort='price_asc') }}" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'price_asc' %} active{% endif %}">
+                        Price: Low to High
+                    </a>
+                    <a href="{{ url_for('products', category=request.args.get('category', ''), sort='price_desc') }}" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'price_desc' %} active{% endif %}">
+                        Price: High to Low
+                    </a>
+                    <a href="{{ url_for('products', category=request.args.get('category', ''), sort='name_asc') }}" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'name_asc' %} active{% endif %}">
+                        Name: A to Z
+                    </a>
+                    <a href="{{ url_for('products', category=request.args.get('category', ''), sort='name_desc') }}" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'name_desc' %} active{% endif %}">
+                        Name: Z to A
+                    </a>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Artisan Spotlight</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="artisan-avatar mb-3">
+                        <svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="100" fill="#e6b17e" />
+                            <circle cx="100" cy="85" r="40" fill="#fff" />
+                            <path d="M100,130 C60,130 40,160 40,200 L160,200 C160,160 140,130 100,130 Z" fill="#fff" />
+                        </svg>
+                    </div>
+                    <h5>María González</h5>
+                    <p class="mb-2 text-muted">Handwoven Textiles</p>
+                    <p class="small">María creates beautiful woven pieces using traditional techniques passed down for generations in her family.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Grid -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>
+                    {% if request.args.get('category') %}
+                        {% for cat_code, cat_name in categories %}
+                            {% if request.args.get('category') == cat_code %}
+                                {{ cat_name }}
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        All Handcrafted Items
+                    {% endif %}
+                </h1>
+                <span class="text-muted">{{ paginator.total }} items found</span>
+            </div>
+            
+            <div class="row g-4">
+                {% for item in object_list %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card product-card h-100">
+                        {% if item.image_url %}
+                        <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}">
+                        {% else %}
+                        <div class="card-img-top product-placeholder">
+                            <i class="fas fa-image fa-3x text-muted"></i>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="badge bg-primary">
+                                    {{ item.category.name }}
+                                </span>
+                                {% if item.discount_price %}
+                                <span class="badge bg-danger">Sale</span>
+                                {% endif %}
+                            </div>
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <div class="product-price mb-3">
+                                {% if item.discount_price %}
+                                <span class="text-muted text-decoration-line-through me-2">${{ item.price }}</span>
+                                <span class="fw-bold text-danger">${{ item.discount_price }}</span>
+                                {% else %}
+                                <span class="fw-bold">${{ item.price }}</span>
+                                {% endif %}
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('product_detail', slug=item.slug) }}" class="btn btn-outline-primary">View Details</a>
+                                <a href="{{ url_for('add_to_cart', product_id=item.id) }}" class="btn btn-primary">Add to Cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No products found. Try adjusting your filter or check back soon for new arrivals.
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <nav class="mt-4">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_prev %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('products', category=request.args.get('category', ''), page=page_obj.prev_num) }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-chevron-left"></i></span>
+                    </li>
+                    {% endif %}
+                    
+                    {% for num in range(1, paginator.pages + 1) %}
+                        {% if page_obj.page == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% elif num > page_obj.page - 3 and num < page_obj.page + 3 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('products', category=request.args.get('category', ''), page=num) }}">{{ num }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('products', category=request.args.get('category', ''), page=page_obj.next_num) }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link"><i class="fas fa-chevron-right"></i></span>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,303 @@
+{% extends 'flask_base.html' %}
+
+{% block title %}{{ object.title }} | Artisan Crafts{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('products') }}">Shop</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ object.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- Product Image -->
+                <div class="col-md-6 mb-4">
+                    <div class="product-image-container">
+                        {% if object.image_url %}
+                        <img src="{{ object.image_url }}" class="img-fluid rounded" alt="{{ object.title }}">
+                        {% else %}
+                        <div class="product-placeholder rounded d-flex align-items-center justify-content-center" style="height: 400px; background-color: #f8f9fa;">
+                            <i class="fas fa-image fa-5x text-muted"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Product Details -->
+                <div class="col-md-6">
+                    <h1 class="mb-2">{{ object.title }}</h1>
+                    
+                    <div class="mb-3">
+                        <span class="badge bg-primary me-2">{{ object.category.name }}</span>
+                        {% if object.discount_price %}
+                        <span class="badge bg-danger">Sale</span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="product-price fs-3 mb-3">
+                        {% if object.discount_price %}
+                        <span class="text-muted text-decoration-line-through me-2">${{ object.price }}</span>
+                        <span class="fw-bold text-danger">${{ object.discount_price }}</span>
+                        <span class="ms-2 badge bg-success">
+                            Save ${{ (object.price - object.discount_price)|round(2) }}
+                        </span>
+                        {% else %}
+                        <span class="fw-bold">${{ object.price }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="mb-4">{{ object.description }}</p>
+                    
+                    <form action="{{ url_for('add_to_cart', product_id=object.id) }}" method="get" class="mb-4">
+                        <div class="row g-3">
+                            <div class="col-auto">
+                                <div class="input-group">
+                                    <span class="input-group-text">Quantity</span>
+                                    <input type="number" name="quantity" value="1" min="1" max="10" class="form-control" style="width: 70px">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary btn-lg w-100">
+                                    <i class="fas fa-shopping-bag me-2"></i>Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="product-meta">
+                        <div class="mb-2">
+                            <i class="fas fa-hands text-success me-2"></i>
+                            <span>Handmade with care</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-truck text-muted me-2"></i>
+                            <span>Free shipping on orders over $50</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-undo text-muted me-2"></i>
+                            <span>30-day return policy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Artisan Info -->
+    <div class="card mt-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-2 text-center">
+                    <svg width="100" height="100" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="mb-2">
+                        <circle cx="100" cy="100" r="100" fill="#e6b17e" />
+                        <circle cx="100" cy="85" r="40" fill="#fff" />
+                        <path d="M100,130 C60,130 40,160 40,200 L160,200 C160,160 140,130 100,130 Z" fill="#fff" />
+                    </svg>
+                </div>
+                <div class="col-md-10">
+                    <h4>About the Artisan</h4>
+                    {% if object.artisan_name %}
+                    <h5>{{ object.artisan_name }}{% if object.artisan_location %} from {{ object.artisan_location }}{% endif %}</h5>
+                    {% endif %}
+                    <p>This beautiful piece was handcrafted by skilled artisans using traditional techniques and natural materials. Each piece is unique with subtle variations that showcase the handmade nature of the product.</p>
+                    {% if object.materials %}
+                    <p><strong>Materials:</strong> {{ object.materials }}</p>
+                    {% endif %}
+                    <a href="#" class="btn btn-sm btn-outline-primary">Learn More About Our Artisans</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Product Additional Info Tabs -->
+    <div class="card mt-4">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">
+                        Description
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab" aria-controls="specifications" aria-selected="false">
+                        Details
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button" role="tab" aria-controls="care" aria-selected="false">
+                        Care Instructions
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">
+                        Reviews
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="productTabsContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p>{{ object.description }}</p>
+                            
+                            {% if object.origin_story %}
+                            <h5>Origin Story</h5>
+                            <p>{{ object.origin_story }}</p>
+                            {% endif %}
+                            
+                            <p>This beautiful handmade piece showcases the incredible talent and traditional techniques passed down through generations. Supporting artisan crafts helps preserve cultural heritage and provides sustainable livelihoods for skilled craftspeople around the world.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">Features</h5>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success me-2"></i> Handcrafted with care</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Natural materials</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Unique design</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Fair trade practices</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Supports artisan communities</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th scope="row" style="width: 30%;">Category</th>
+                                    <td>{{ object.category.name }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Materials</th>
+                                    <td>{% if object.materials %}{{ object.materials }}{% else %}Sustainably sourced natural materials{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Dimensions</th>
+                                    <td>Varies (handmade items may have slight size variations)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Origin</th>
+                                    <td>{% if object.artisan_location %}{{ object.artisan_location }}{% else %}Handcrafted by skilled artisans{% endif %}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Item Code</th>
+                                    <td>{{ object.slug }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Shipping</th>
+                                    <td>Free shipping on orders over $50</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Returns</th>
+                                    <td>30-day return policy</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="care" role="tabpanel" aria-labelledby="care-tab">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h5>Care Instructions</h5>
+                            <p>To ensure your handcrafted item maintains its beauty and longevity, please follow these care instructions:</p>
+                            <ul>
+                                <li>Clean gently using a soft, damp cloth</li>
+                                <li>Avoid direct sunlight for prolonged periods</li>
+                                <li>Store in a dry place when not in use</li>
+                                <li>Avoid harsh chemicals and cleaning solutions</li>
+                                <li>Handle with care as handmade items can be delicate</li>
+                            </ul>
+                            <p>Each artisan product is unique and may develop a natural patina over time, which adds to its character and beauty.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">Need Help?</h5>
+                                    <p>If you have any questions about caring for your item, please contact our customer service team.</p>
+                                    <a href="#" class="btn btn-outline-primary">Contact Us</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    <!-- Reviews would go here -->
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        No reviews yet. Be the first to review this product!
+                    </div>
+                    
+                    <!-- Review Form -->
+                    <div class="card mt-4">
+                        <div class="card-header bg-primary text-white">
+                            <h5 class="mb-0">Write a Review</h5>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="#">
+                                <div class="mb-3">
+                                    <label for="rating" class="form-label">Rating</label>
+                                    <select class="form-select" id="rating" name="rating" required>
+                                        <option value="">Select Rating</option>
+                                        <option value="5">5 Stars - Excellent</option>
+                                        <option value="4">4 Stars - Very Good</option>
+                                        <option value="3">3 Stars - Good</option>
+                                        <option value="2">2 Stars - Fair</option>
+                                        <option value="1">1 Star - Poor</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="review_text" class="form-label">Your Review</label>
+                                    <textarea class="form-control" id="review_text" name="review_text" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Related Products -->
+    <section class="mt-5">
+        <h2 class="mb-4">You Might Also Like</h2>
+        <div class="row g-4">
+            {% for i in range(4) %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card product-card h-100">
+                    <div class="product-placeholder">
+                        <i class="fas fa-image fa-3x text-muted"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="badge bg-primary">Artisan Craft</span>
+                        </div>
+                        <h5 class="card-title">Similar Product {{ i+1 }}</h5>
+                        <div class="product-price mb-3">
+                            <span class="fw-bold">$29.99</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <a href="#" class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}
