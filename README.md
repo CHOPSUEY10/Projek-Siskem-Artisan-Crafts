@@ -1,11 +1,11 @@
 # Projek-Siskem-Artisan-Crafts
 
-# Create a Python virtual environment
+1. Create a Python virtual environment
 python -m venv venv
 venv\Scripts\activate
 
-# Install required packages
+2. Install required packages
 pip install -qr requirements.txt
 
-# Running Project 
+3. Running Project 
 python main.py
