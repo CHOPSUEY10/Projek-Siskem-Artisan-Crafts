@@ -20,14 +20,13 @@ def create_app():
     
     # configure logging
     logging.basicConfig(level=logging.DEBUG)
-    
+
+    # Memaksa reload template dan Nonaktifkan cache static files
+    app.config['TEMPLATES_AUTO_RELOAD'] = True  
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0  
     # configure the database
     database_url = os.environ.get("DATABASE_URL", "sqlite:///artisan_crafts.db")
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-        "pool_recycle": 300,
-        "pool_pre_ping": True,
-    }
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
     # initialize the app with the extension

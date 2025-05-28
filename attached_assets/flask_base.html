@@ -30,14 +30,14 @@
                         <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('products') }}">Shop</a>
+                        <a class="nav-link" href="{{ url_for('products') }}">Toko</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                            Categories
+                            Kategori
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url_for('products') }}">All Products</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('products') }}">Semua Produk</a></li>
                             <li><hr class="dropdown-divider"></li>
                             {% for category in get_categories() %}
                             <li><a class="dropdown-item" href="{{ url_for('products', category=category.code) }}">{{ category.name }}</a></li>

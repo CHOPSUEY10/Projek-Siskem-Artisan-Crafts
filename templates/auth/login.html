@@ -20,7 +20,7 @@
                             {% if form.email.errors %}
                                 <div class="text-danger">
                                     {% for error in form.email.errors %}
-                                        <small>{{ error }}</small>
+                                        <small>{{ error | safe }}</small> <!--rentan XSS-->
                                     {% endfor %}
                                 </div>
                             {% endif %}
@@ -32,7 +32,7 @@
                             {% if form.password.errors %}
                                 <div class="text-danger">
                                     {% for error in form.password.errors %}
-                                        <small>{{ error }}</small>
+                                        <small>{{ error |safe }}</small> <!--rentan XSS-->
                                     {% endfor %}
                                 </div>
                             {% endif %}
