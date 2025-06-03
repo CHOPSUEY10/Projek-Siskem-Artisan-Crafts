@@ -3,6 +3,7 @@ from auth import bp
 from models import User
 from forms import LoginForm, RegistrationForm
 from app import db
+from sqlalchemy import text 
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -10,9 +11,17 @@ def login():
     form = LoginForm()
     
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
+        #user = User.query.filter_by(email=form.email.data).first()
+        #if user and user.check_password(form.password.data):
         
-        if user and user.check_password(form.password.data):
+        # bagian ini secara sengaja dilemahkan untuk menjadi contoh backend yang lemah terhadap serangan SQL Injection
+        email_input = form.email.data
+        query = text(f"SELECT * FROM user WHERE email= '{email_input}'")
+        result = db.session.execute(query)
+        user = result.fetchone()
+        
+        
+        if user :
             # Login successful
             session['user_id'] = user.id
             session['username'] = user.username

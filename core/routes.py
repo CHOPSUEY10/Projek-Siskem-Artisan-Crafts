@@ -32,6 +32,8 @@ def get_or_create_order():
     return order
 
 
+
+
 @bp.route('/')
 def home():
     # Get featured items (items with discount_price)

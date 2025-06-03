@@ -20,19 +20,21 @@
                             {% if form.email.errors %}
                                 <div class="text-danger">
                                     {% for error in form.email.errors %}
-                                        <small>{{ error }}</small>
-                                    {% endfor %}
+                                        <!--Bagian ini secara sengaja dilemahkan agar pentester dapat bypass error-->
+                                        <small>{{ error | safe  }}</small>
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
                                 </div>
-                            {% endif %}
-                        </div>
-                        
-                        <div class="mb-3">
-                            {{ form.password.label(class="form-label") }}
-                            {{ form.password(class="form-control") }}
-                            {% if form.password.errors %}
-                                <div class="text-danger">
-                                    {% for error in form.password.errors %}
-                                        <small>{{ error }}</small>
+                                
+                                <div class="mb-3">
+                                    {{ form.password.label(class="form-label") }}
+                                    {{ form.password(class="form-control") }}
+                                    {% if form.password.errors %}
+                                    <div class="text-danger">
+                                        {% for error in form.password.errors %}
+                                        <!--Bagian ini secara sengaja dilemahkan agar pentester dapat bypass error-->
+                                        <small>{{ error | safe }}</small>
                                     {% endfor %}
                                 </div>
                             {% endif %}

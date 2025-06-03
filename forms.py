@@ -2,12 +2,17 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, SelectField, BooleanField, DecimalField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, NumberRange, Optional
 
-
+"""
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
-
+   """ 
+# Bagian ini sengaja dilemahkan dengan menonaktifkan form validators
+class LoginForm(FlaskForm):
+    email = StringField('Email')  # Tidak ada DataRequired() dan Email()
+    password = PasswordField('Password')  # Tidak ada DataRequired()
+    remember_me = BooleanField('Remember Me')
 
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired(), Length(min=2, max=64)])
