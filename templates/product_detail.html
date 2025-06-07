@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url_for('core.home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ url_for('core.products') }}">Shop</a></li>
+            <li class="breadcrumb-item"><a href="{{ url_for('core.products') }}">Toko</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
         </ol>
     </nav>
@@ -17,7 +17,8 @@
                 <div class="col-md-6 mb-4">
                     <div class="product-image-container">
                         {% if item.image_url %}
-                        <img src="{{ item.image_url }}" class="img-fluid rounded" alt="{{ item.title }}">
+                        <img src="{{ url_for('static', filename='images/' + item.image_url) }}" class="card-img-top" alt="{{ item.title }}">
+                        <!-- <img src="{{ item.image_url }}" class="img-fluid rounded" alt="{{ item.title }}"> -->
                         {% else %}
                         <div class="product-placeholder rounded d-flex align-items-center justify-content-center" style="height: 400px; background-color: #f8f9fa;">
                             <i class="fas fa-image fa-5x text-muted"></i>
@@ -39,10 +40,10 @@
                     
                     <div class="product-price fs-3 mb-3">
                         {% if item.discount_price %}
-                        <span class="text-muted text-decoration-line-through me-2">${{ item.price }}</span>
-                        <span class="fw-bold text-danger">${{ item.discount_price }}</span>
+                        <span class="text-muted text-decoration-line-through me-2">{{ item.price|rupiah }}</span>
+                        <span class="fw-bold text-danger">{{ item.discount_price|rupiah }}</span>
                         <span class="ms-2 badge bg-success">
-                            Save ${{ "%.2f"|format(item.price - item.discount_price) }}
+                            Hemat Rp{{ "%.2f"|format(item.price - item.discount_price) }}
                         </span>
                         {% else %}
                         <span class="fw-bold">${{ item.price }}</span>
@@ -53,7 +54,7 @@
                     
                     <div class="d-grid gap-2 d-md-flex mb-4">
                         <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary btn-lg flex-grow-1">
-                            <i class="fas fa-shopping-bag me-2"></i>Add to Cart
+                            <i class="fas fa-shopping-bag me-2"></i>Tambah Keranjang
                         </a>
                         <a href="{{ item.get_remove_from_cart_url() }}" class="btn btn-outline-danger btn-lg">
                             <i class="fas fa-heart"></i>
@@ -63,15 +64,15 @@
                     <div class="product-meta">
                         <div class="mb-2">
                             <i class="fas fa-hands text-success me-2"></i>
-                            <span>Handmade with care</span>
+                            <span>Dibuat dengan Penuh Perhatian</span>
                         </div>
                         <div class="mb-2">
                             <i class="fas fa-truck text-muted me-2"></i>
-                            <span>Free shipping on orders over $50</span>
+                            <span>Gratis Ongkir untuk Pesanan di Atas Rp50.000</span>
                         </div>
                         <div>
                             <i class="fas fa-undo text-muted me-2"></i>
-                            <span>30-day return policy</span>
+                            <span>Garansi Kembali dalam 30 Hari</span>
                         </div>
                     </div>
                 </div>
@@ -91,9 +92,9 @@
                     </svg>
                 </div>
                 <div class="col-md-10">
-                    <h4>About the Artisan</h4>
-                    <p>This beautiful piece was handcrafted by skilled artisans using traditional techniques and natural materials. Each piece is unique with subtle variations that showcase the handmade nature of the product.</p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">Learn More About Our Artisans</a>
+                    <h4>Tentang Pengrajin</h4>
+                    <p>Produk ini dibuat dengan tangan oleh pengrajin terampil menggunakan teknik tradisional dan bahan alami. Setiap produk unik dengan variasi halus yang menampilkan sifat buatan tangan dari produk tersebut.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut Pengrajin Kami</a>
                 </div>
             </div>
         </div>
@@ -105,17 +106,17 @@
             <ul class="nav nav-tabs card-header-tabs" id="productTabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">
-                        Description
+                        Deskripsi
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab" aria-controls="specifications" aria-selected="false">
-                        Details
+                        Detail
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="care-tab" data-bs-toggle="tab" data-bs-target="#care" type="button" role="tab" aria-controls="care" aria-selected="false">
-                        Care Instructions
+                        Intruksi Perawatan
                     </button>
                 </li>
             </ul>
@@ -132,11 +133,11 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Features</h5>
                                     <ul class="list-unstyled">
-                                        <li><i class="fas fa-check text-success me-2"></i> Handcrafted with care</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> Natural materials</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> Unique design</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> Fair trade practices</li>
-                                        <li><i class="fas fa-check text-success me-2"></i> Supports artisan communities</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Dibuat dengan penuh cinta</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Bahan Alami</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Desain Unik</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Praktik perdaganangan yang adil</li>
+                                        <li><i class="fas fa-check text-success me-2"></i> Dukung Komunitas pengrajin</li>
                                     </ul>
                                 </div>
                             </div>
@@ -149,32 +150,32 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <th scope="row" style="width: 30%;">Category</th>
+                                    <th scope="row" style="width: 30%;">Kategori</th>
                                     <td>{{ item.category.name }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Materials</th>
-                                    <td>Sustainably sourced natural materials</td>
+                                    <th scope="row">Material</th>
+                                    <td>Bahan alami yang bersumber secara berkelanjutan</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Dimensions</th>
-                                    <td>Varies (handmade items may have slight size variations)</td>
+                                    <th scope="row">Dimensi</th>
+                                    <td>Bervariasi (Karena buatan tangan, ukuran dapat sedikit berbeda)</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Origin</th>
-                                    <td>Handcrafted by skilled artisans</td>
+                                    <th scope="row">Asal</th>
+                                    <td>Dibuat oleh pengrajin terampil</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Item Code</th>
+                                    <th scope="row">Kode Item</th>
                                     <td>{{ item.slug }}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Shipping</th>
-                                    <td>Free shipping on orders over $50</td>
+                                    <th scope="row">Pengiriman</th>
+                                    <td>Gratis Ongkir untuk pesanan di atas Rp50.000</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Returns</th>
-                                    <td>30-day return policy</td>
+                                    <th scope="row">Pengembalian</th>
+                                    <td>Kebijakan Pengembalian 30 Hari</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -184,23 +185,23 @@
                 <div class="tab-pane fade" id="care" role="tabpanel" aria-labelledby="care-tab">
                     <div class="row">
                         <div class="col-md-8">
-                            <h5>Care Instructions</h5>
-                            <p>To ensure your handcrafted item maintains its beauty and longevity, please follow these care instructions:</p>
+                            <h5>Intruksi Perawatan</h5>
+                            <p>Untuk memastikan barang kerajinan tangan Anda tetap indah dan awet, harap ikuti petunjuk perawatan ini:</p>
                             <ul>
-                                <li>Clean gently using a soft, damp cloth</li>
-                                <li>Avoid direct sunlight for prolonged periods</li>
-                                <li>Store in a dry place when not in use</li>
-                                <li>Avoid harsh chemicals and cleaning solutions</li>
-                                <li>Handle with care as handmade items can be delicate</li>
+                                <li>Bersihkan dengan lembut menggunakan kain lembut yang sedikit basah</li>
+                                <li>Hindari sinar matahari langsung dalam waktu yang lama</li>
+                                <li>Simpan di tempat kering saat tidak digunakan</li>
+                                <li>Hindari bahan kimia keras dan solusi pembersih</li>
+                                <li>Perlakukan dengan hati-hati karena barang handmade bisa rapuh</li>
                             </ul>
-                            <p>Each artisan product is unique and may develop a natural patina over time, which adds to its character and beauty.</p>
+                            <p>Setiap produk kerajinan tangan adalah unik dan dapat mengembangkan patina alami seiring waktu, yang menambah karakter dan keindahannya.</p>
                         </div>
                         <div class="col-md-4">
                             <div class="card bg-light">
                                 <div class="card-body">
-                                    <h5 class="card-title">Need Help?</h5>
-                                    <p>If you have any questions about caring for your item, please contact our customer service team.</p>
-                                    <a href="#" class="btn btn-outline-primary">Contact Us</a>
+                                    <h5 class="card-title">Butuh Bantuan?</h5>
+                                    <p>Jika Anda memiliki pertanyaan tentang merawat barang Anda, silakan hubungi tim layanan pelanggan kami.</p>
+                                    <a href="#" class="btn btn-outline-primary">Hubungi Kami</a>
                                 </div>
                             </div>
                         </div>

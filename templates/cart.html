@@ -5,11 +5,11 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url_for('core.home') }}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+            <li class="breadcrumb-item active" aria-current="page">Keranjang Belanja</li>
         </ol>
     </nav>
     
-    <h1 class="mb-4">Shopping Cart</h1>
+    <h1 class="mb-4">Keranjang Belanja Anda</h1>
     
     <div class="row">
         <div class="col-md-9">
@@ -20,11 +20,11 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col" style="width: 50%;">Product</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
+                                    <th scope="col" style="width: 50%;">Produk</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Jumlah</th>
                                     <th scope="col">Total</th>
-                                    <th scope="col">Actions</th>
+                                    <th scope="col">Hapus</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -33,7 +33,8 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             {% if order_item.item.image_url %}
-                                            <img src="{{ order_item.item.image_url }}" alt="{{ order_item.item.title }}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
+                                            <img src="{{ url_for('static', filename='images/' + order_item.item.image_url) }}" alt="{{ order_item.item.title }}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
+                                            <!-- <img src="{{ order_item.item.image_url }}" alt="{{ order_item.item.title }}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;"> -->
                                             {% else %}
                                             <div class="img-thumbnail d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                                                 <i class="fas fa-image text-muted"></i>
@@ -47,10 +48,10 @@
                                     </td>
                                     <td>
                                         {% if order_item.item.discount_price %}
-                                        <span class="text-muted text-decoration-line-through d-block">${{ order_item.item.price }}</span>
-                                        <span class="text-danger">${{ order_item.item.discount_price }}</span>
+                                        <span class="text-muted text-decoration-line-through d-block">{{ order_item.item.price|rupiah }}</span>
+                                        <span class="text-danger">{{ order_item.item.discount_price|rupiah }}</span>
                                         {% else %}
-                                        <span>${{ order_item.item.price }}</span>
+                                        <span>{{ order_item.item.price|rupiah }}</span>
                                         {% endif %}
                                     </td>
                                     <td>
@@ -66,10 +67,10 @@
                                     </td>
                                     <td>
                                         {% if order_item.item.discount_price %}
-                                        <span>${{ "%.2f"|format(order_item.get_total_discount_item_price()) }}</span>
-                                        <small class="text-success d-block">Save ${{ "%.2f"|format(order_item.get_amount_saved()) }}</small>
+                                        <span>{{order_item.get_total_discount_item_price()|rupiah }}</span>
+                                        <small class="text-success d-block">Hemat {{order_item.get_amount_saved()|rupiah }}</small>
                                         {% else %}
-                                        <span>${{ "%.2f"|format(order_item.get_total_item_price()) }}</span>
+                                        <span>{{order_item.get_total_item_price()|rupiah }}</span>
                                         {% endif %}
                                     </td>
                                     <td>
@@ -85,9 +86,9 @@
                     {% else %}
                     <div class="text-center py-5">
                         <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
-                        <h4>Your cart is empty</h4>
-                        <p class="text-muted">Looks like you haven't added any items to your cart yet.</p>
-                        <a href="{{ url_for('core.products') }}" class="btn btn-primary mt-3">Continue Shopping</a>
+                        <h4>Keranjang Kosong</h4>
+                        <p class="text-muted">Sepertinya Anda belum menambahkan barang apapun ke keranjang Anda.</p>
+                        <a href="{{ url_for('core.products') }}" class="btn btn-primary mt-3">lanjut Belanja</a>
                     </div>
                     {% endif %}
                 </div>
@@ -97,32 +98,32 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Order Summary</h5>
+                    <h5 class="mb-0">Ringkasan Pemesanan</h5>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between mb-2">
                         <span>Subtotal</span>
-                        <span>${{ "%.2f"|format(order.get_total()) if order.items else "0.00" }}</span>
+                        <span>{{order.get_total()|rupiah if order.items else 0|rupiah }}</span>
                     </div>
                     {% if session.get('coupon_code') %}
                     <div class="d-flex justify-content-between mb-2 text-success">
                         <span>Coupon ({{ session.coupon_code }})</span>
-                        <span>-$10.00</span>
+                        <span>-Rp10.000</span>
                     </div>
                     {% endif %}
                     <div class="d-flex justify-content-between mb-2">
-                        <span>Shipping</span>
-                        <span>Free</span>
+                        <span>Pengiriman</span>
+                        <span>Gratis</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between mb-3 fw-bold">
                         <span>Total</span>
-                        <span class="fs-5">${{ "%.2f"|format(order.get_total()) if order.items else "0.00" }}</span>
+                        <span class="fs-5">{{order.get_total()|rupiah if order.items else 0|rupiah }}</span>
                     </div>
                     
                     {% if order.items %}
                     <div class="d-grid">
-                        <a href="{{ url_for('core.checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+                        <a href="{{ url_for('core.checkout') }}" class="btn btn-primary">Lanjut ke Pembayaran</a>
                     </div>
                     {% endif %}
                 </div>
@@ -131,15 +132,15 @@
             {% if order.items %}
             <div class="card mt-3">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0">Apply Coupon</h5>
+                    <h5 class="mb-0">Konfirmasi Kupon</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST" action="{{ url_for('core.add_coupon') }}">
                         <div class="mb-3">
-                            <label for="couponCode" class="form-label">Coupon Code</label>
+                            <label for="couponCode" class="form-label">Kode Kupon</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="couponCode" name="code" placeholder="Enter code">
-                                <button type="submit" class="btn btn-outline-secondary">Apply</button>
+                                <input type="text" class="form-control" id="couponCode" name="code" placeholder="Masukkan Kode">
+                                <button type="submit" class="btn btn-outline-secondary">Konfirmasi</button>
                             </div>
                         </div>
                     </form>
@@ -152,7 +153,7 @@
     {% if order.items %}
     <div class="mt-4">
         <a href="{{ url_for('core.products') }}" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left me-2"></i>Continue Shopping
+            <i class="fas fa-arrow-left me-2"></i>Lanjut Belanja
         </a>
     </div>
     {% endif %}

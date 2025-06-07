@@ -5,7 +5,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url_for('core.home') }}">Home</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Shop</li>
+            <li class="breadcrumb-item active" aria-current="page">Toko</li>
         </ol>
     </nav>
     
@@ -14,11 +14,11 @@
         <div class="col-lg-3 mb-4">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Categories</h5>
+                    <h5 class="mb-0">Kategori</h5>
                 </div>
                 <div class="list-group list-group-flush">
                     <a href="{{ url_for('core.products') }}" class="list-group-item list-group-item-action{% if not request.args.get('category') %} active{% endif %}">
-                        All Products
+                        Semua Produk
                     </a>
                     {% for cat_code, cat_name in categories %}
                     <a href="{{ url_for('core.products', category=cat_code) }}" class="list-group-item list-group-item-action{% if request.args.get('category') == cat_code %} active{% endif %}">
@@ -30,7 +30,7 @@
             
             <div class="card mt-4">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Price Range</h5>
+                    <h5 class="mb-0">Rentang Harga</h5>
                 </div>
                 <div class="card-body">
                     <form method="GET" action="{{ url_for('core.products') }}" class="price-filter-form">
@@ -39,50 +39,50 @@
                         {% endif %}
                         
                         <div class="mb-3">
-                            <label for="min_price" class="form-label">Min Price</label>
+                            <label for="min_price" class="form-label">Harga Minimal</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">Rp</span>
                                 <input type="number" class="form-control" id="min_price" name="min_price" min="0" value="{{ request.args.get('min_price', '') }}">
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="max_price" class="form-label">Max Price</label>
+                            <label for="max_price" class="form-label">Harga Maksimal</label>
                             <div class="input-group">
-                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">Rp</span>
                                 <input type="number" class="form-control" id="max_price" name="max_price" min="0" value="{{ request.args.get('max_price', '') }}">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+                        <button type="submit" class="btn btn-primary w-100">Terapkan Filter</button>
                     </form>
                 </div>
             </div>
             
             <div class="card mt-4">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Sorting</h5>
+                    <h5 class="mb-0">Urutkan</h5>
                 </div>
                 <div class="list-group list-group-flush">
                     <a href="{{ url_for('core.products') }}{% if request.args.get('category') %}?category={{ request.args.get('category') }}{% endif %}" class="list-group-item list-group-item-action{% if not request.args.get('sort') %} active{% endif %}">
                         Default
                     </a>
                     <a href="{{ url_for('core.products') }}?{% if request.args.get('category') %}category={{ request.args.get('category') }}&{% endif %}sort=price_asc" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'price_asc' %} active{% endif %}">
-                        Price: Low to High
+                        Harga: Rendah - Tinggi
                     </a>
                     <a href="{{ url_for('core.products') }}?{% if request.args.get('category') %}category={{ request.args.get('category') }}&{% endif %}sort=price_desc" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'price_desc' %} active{% endif %}">
-                        Price: High to Low
+                        Harga: Tinggi - Rendah
                     </a>
                     <a href="{{ url_for('core.products') }}?{% if request.args.get('category') %}category={{ request.args.get('category') }}&{% endif %}sort=name_asc" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'name_asc' %} active{% endif %}">
-                        Name: A to Z
+                        Nama: A sampai Z
                     </a>
                     <a href="{{ url_for('core.products') }}?{% if request.args.get('category') %}category={{ request.args.get('category') }}&{% endif %}sort=name_desc" class="list-group-item list-group-item-action{% if request.args.get('sort') == 'name_desc' %} active{% endif %}">
-                        Name: Z to A
+                        Nama: Z sampai A
                     </a>
                 </div>
             </div>
             
             <div class="card mt-4">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Artisan Spotlight</h5>
+                    <h5 class="mb-0">Sorotan Pengrajin</h5>
                 </div>
                 <div class="card-body text-center">
                     <div class="artisan-avatar mb-3">
@@ -92,10 +92,10 @@
                             <path d="M100,130 C60,130 40,160 40,200 L160,200 C160,160 140,130 100,130 Z" fill="#fff" />
                         </svg>
                     </div>
-                    <h5>María González</h5>
-                    <p class="mb-2 text-muted">Handwoven Textiles</p>
-                    <p class="small">María creates beautiful woven pieces using traditional techniques passed down for generations in her family.</p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">View Profile</a>
+                    <h5>Fathdly Aidin Parawansa</h5>
+                    <p class="mb-2 text-muted">Tekstil Tenunan Tangan</p>
+                    <p class="small">Fathdly menciptakan karya anyaman yang indah menggunakan teknik tradisional yang diwariskan selama beberapa generasi dalam keluarganya.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary">Lihat Profil</a>
                 </div>
             </div>
         </div>
@@ -111,10 +111,10 @@
                             {% endif %}
                         {% endfor %}
                     {% else %}
-                        All Handcrafted Items
+                        Kerajinan Tangan
                     {% endif %}
                 </h1>
-                <span class="text-muted">{{ items.total }} items found</span>
+                <span class="text-muted">{{ items.total }} Barang</span>
             </div>
             
             <div class="row g-4">
@@ -122,7 +122,8 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="card product-card h-100">
                         {% if item.image_url %}
-                        <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}">
+                        <img src="{{ url_for('static', filename='images/' + item.image_url) }}" class="card-img-top" alt="{{ item.title }}">
+                        <!-- <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}"> -->
                         {% else %}
                         <div class="card-img-top product-placeholder">
                             <i class="fas fa-image fa-3x text-muted"></i>
@@ -135,21 +136,21 @@
                                     {{ item.category.name }}
                                 </span>
                                 {% if item.discount_price %}
-                                <span class="badge bg-danger">Sale</span>
+                                <span class="badge bg-danger">Diskon</span>
                                 {% endif %}
                             </div>
                             <h5 class="card-title">{{ item.title }}</h5>
                             <div class="product-price mb-3">
                                 {% if item.discount_price %}
-                                <span class="text-muted text-decoration-line-through me-2">${{ item.price }}</span>
-                                <span class="fw-bold text-danger">${{ item.discount_price }}</span>
+                                <span class="text-muted text-decoration-line-through me-2">{{ item.price|rupiah }}</span>
+                                <span class="fw-bold text-danger">{{ item.discount_price|rupiah }}</span>
                                 {% else %}
-                                <span class="fw-bold">${{ item.price }}</span>
+                                <span class="fw-bold">{{ item.price|rupiah }}</span>
                                 {% endif %}
                             </div>
                             <div class="d-grid gap-2">
-                                <a href="{{ item.get_absolute_url() }}" class="btn btn-outline-primary">View Details</a>
-                                <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary">Add to Cart</a>
+                                <a href="{{ item.get_absolute_url() }}" class="btn btn-outline-primary">Lihat Detail</a>
+                                <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary">Tambah Keranjang</a>
                             </div>
                         </div>
                     </div>

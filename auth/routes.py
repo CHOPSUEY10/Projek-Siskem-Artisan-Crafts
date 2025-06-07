@@ -20,7 +20,7 @@ def login():
         result = db.session.execute(query)
         user = result.fetchone()
         
-        
+        # tidak ada pengecekan terhadap password disini
         if user :
             # Login successful
             session['user_id'] = user.id

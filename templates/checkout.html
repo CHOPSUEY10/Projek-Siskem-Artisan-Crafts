@@ -5,18 +5,18 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ url_for('core.home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ url_for('core.cart') }}">Cart</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            <li class="breadcrumb-item"><a href="{{ url_for('core.cart') }}">Keranjang</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Pembayaran</li>
         </ol>
     </nav>
     
-    <h1 class="mb-4">Checkout</h1>
+    <h1 class="mb-4">Pembayaran</h1>
     
     <div class="row">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Shipping Information</h5>
+                    <h5 class="mb-0">Informasi Pengiriman</h5>
                 </div>
                 <div class="card-body">
                     <form method="POST">
@@ -123,8 +123,8 @@
                         <hr>
                         
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="{{ url_for('core.cart') }}" class="btn btn-outline-secondary me-md-2">Back to Cart</a>
-                            <button type="submit" class="btn btn-primary">Place Order</button>
+                            <a href="{{ url_for('core.cart') }}" class="btn btn-outline-secondary me-md-2">Kembali ke Keranjang</a>
+                            <button type="submit" class="btn btn-primary">Pesan Sekarang</button>
                         </div>
                     </form>
                 </div>
@@ -134,23 +134,23 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Order Summary</h5>
+                    <h5 class="mb-0">Ringkasan Pemesanan</h5>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <h6 class="mb-2">Items in Order:</h6>
+                        <h6 class="mb-2">List Barang:</h6>
                         <ul class="list-group list-group-flush">
                             {% for order_item in order.items %}
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-2 border-bottom">
                                 <div>
                                     <h6 class="mb-0">{{ order_item.item.title }}</h6>
-                                    <small class="text-muted">Qty: {{ order_item.quantity }}</small>
+                                    <small class="text-muted">Jumlah: {{ order_item.quantity }}</small>
                                 </div>
                                 <span>
                                     {% if order_item.item.discount_price %}
-                                    ${{ "%.2f"|format(order_item.get_total_discount_item_price()) }}
+                                    {{order_item.get_total_discount_item_price()|rupiah }}
                                     {% else %}
-                                    ${{ "%.2f"|format(order_item.get_total_item_price()) }}
+                                    {{order_item.get_total_item_price()|rupiah }}
                                     {% endif %}
                                 </span>
                             </li>
@@ -160,35 +160,35 @@
                     
                     <div class="d-flex justify-content-between mb-2">
                         <span>Subtotal</span>
-                        <span>${{ "%.2f"|format(order.get_total()) }}</span>
+                        <span>{{order.get_total()|rupiah }}</span>
                     </div>
                     {% if session.get('coupon_code') %}
                     <div class="d-flex justify-content-between mb-2 text-success">
                         <span>Coupon ({{ session.coupon_code }})</span>
-                        <span>-$10.00</span>
+                        <span>-Rp10.000</span>
                     </div>
                     {% endif %}
                     <div class="d-flex justify-content-between mb-2">
-                        <span>Shipping</span>
-                        <span>Free</span>
+                        <span>Pengiriman</span>
+                        <span>Gratis</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-between mb-3 fw-bold">
                         <span>Total</span>
-                        <span class="fs-5">${{ "%.2f"|format(order.get_total()) }}</span>
+                        <span class="fs-5">{{order.get_total()|rupiah }}</span>
                     </div>
                 </div>
             </div>
             
             <div class="card mt-3">
                 <div class="card-body">
-                    <h6 class="mb-3">Secure Checkout</h6>
+                    <h6 class="mb-3">Pemesanan Aman</h6>
                     <p class="small text-muted mb-0">
-                        Your information is securely processed. We value your privacy and security.
+                        Informasi Anda diproses dengan aman. Kami menghargai privasi dan keamanan Anda.
                     </p>
                     <div class="d-flex align-items-center justify-content-center mt-3 mb-0">
                         <i class="fas fa-lock text-success me-2"></i>
-                        <span class="small">Secure SSL Encryption</span>
+                        <span class="small">Enkripsi SSL Aman</span>
                     </div>
                 </div>
             </div>

@@ -19,9 +19,22 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    background: linear-gradient(135deg, #60d5a3 0%, #4b93a2 100%);
     color: white;
     min-height: 500px;
+}
+
+.hero-section .btn-outline-secondary {
+    color: white;
+    border-color: white;
+}
+
+.hero-section .btn-outline-secondary:hover {
+    background-color: hsl(var(--accent-color));
+    border-color: hsl(var(--accent-color));
+    color: white; 
+    transform: translateY(-1px);
 }
 
 .hero-image svg {
@@ -83,7 +96,8 @@ body {
 
 /* Promo Banner */
 .promo-banner {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+    background: linear-gradient(135deg, #60d5a3 0%, #4b93a2 100%);
     border-radius: 15px;
     margin: 3rem 0;
 }
@@ -290,3 +304,25 @@ footer a:hover {
 .breadcrumb-item a:hover {
     text-decoration: underline;
 }
+
+/* ============================================== */
+/* === KODE TAMBAHAN UNTUK DROPDOWN KATEGORI === */
+/* ============================================== */
+
+/* 1. Perbaikan Posisi Dropdown di Navbar */
+.navbar-nav .nav-item.dropdown {
+    position: relative;
+  }
+  
+  .navbar .dropdown-menu {
+    position: absolute;
+    top: 121%;
+    left: 0;
+    float: none;
+  }
+  
+  /* 2. Mengatur Jarak antar Item di Dropdown */
+  .navbar .dropdown-menu .dropdown-item {
+    padding-top: 0.5rem;    /* Ubah nilai ini untuk mengatur jarak atas */
+    padding-bottom: 0.5rem; /* Ubah nilai ini untuk mengatur jarak bawah */
+  }

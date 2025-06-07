@@ -8,6 +8,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+    integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/fontawesome.min.css') }}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -66,8 +70,8 @@
                             <i class="fas fa-user me-1"></i>{{ session.username }}
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item" href="#">Orders</a></li>
+                            <li><a class="dropdown-item" href="#">Profil</a></li>
+                            <li><a class="dropdown-item" href="#">Pesanan</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Logout</a></li>
                         </ul>
@@ -110,39 +114,39 @@
             <div class="row">
                 <div class="col-md-4">
                     <h5><i class="fas fa-hands me-2"></i>Artisan Crafts</h5>
-                    <p>Supporting skilled artisans and bringing you authentic handcrafted items from around the world.</p>
+                    <p>Mendukung pengrajin terampil dan membawa Anda barang-barang buatan tangan yang otentik dari seluruh dunia.</p>
                 </div>
                 <div class="col-md-2">
-                    <h6>Shop</h6>
+                    <h6>Toko</h6>
                     <ul class="list-unstyled">
-                        <li><a href="{{ url_for('core.products') }}" class="text-light text-decoration-none">All Products</a></li>
-                        <li><a href="{{ url_for('core.products', category='PT') }}" class="text-light text-decoration-none">Pottery</a></li>
-                        <li><a href="{{ url_for('core.products', category='JW') }}" class="text-light text-decoration-none">Jewelry</a></li>
-                        <li><a href="{{ url_for('core.products', category='TX') }}" class="text-light text-decoration-none">Textiles</a></li>
+                        <li><a href="{{ url_for('core.products') }}" class="text-light text-decoration-none">Semua Produk</a></li>
+                        <li><a href="{{ url_for('core.products', category='PT') }}" class="text-light text-decoration-none">Gerabah</a></li>
+                        <li><a href="{{ url_for('core.products', category='JW') }}" class="text-light text-decoration-none">Perhiasan</a></li>
+                        <li><a href="{{ url_for('core.products', category='TX') }}" class="text-light text-decoration-none">Tekstil</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2">
-                    <h6>Support</h6>
+                    <h6>Dukungan</h6>
                     <ul class="list-unstyled">
-                        <li><a href="#" class="text-light text-decoration-none">Contact Us</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Shipping Info</a></li>
-                        <li><a href="#" class="text-light text-decoration-none">Returns</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Kontak Kami</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Informasi Belanja</a></li>
+                        <li><a href="#" class="text-light text-decoration-none">Kembali Ke Atas</a></li>
                         <li><a href="#" class="text-light text-decoration-none">FAQ</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
-                    <h6>Newsletter</h6>
-                    <p>Stay updated with new arrivals and artisan stories.</p>
+                    <h6>Buletin</h6>
+                    <p>Tetap terupdate dengan kedatangan baru dan kisah para pengrajin.</p>
                     <div class="input-group">
-                        <input type="email" class="form-control" placeholder="Your email">
-                        <button class="btn btn-primary" type="button">Subscribe</button>
+                        <input type="email" class="form-control" placeholder="Email Anda">
+                        <button class="btn btn-primary" type="button">Berlangganan</button>
                     </div>
                 </div>
             </div>
             <hr class="my-4">
             <div class="row align-items-center">
                 <div class="col-md-6">
-                    <small>&copy; 2024 Artisan Crafts. All rights reserved.</small>
+                    <small>&copy; 2024 Artisan Crafts.</small>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i></a>

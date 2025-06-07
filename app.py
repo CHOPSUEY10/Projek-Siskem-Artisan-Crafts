@@ -12,6 +12,12 @@ class Base(DeclarativeBase):
 
 db = SQLAlchemy(model_class=Base)
 
+def format_rupiah(value):
+    if value is None:
+        return ""
+    harga_ribuan = int(value) * 1000
+    return f"Rp{harga_ribuan:,}".replace(',', '.')
+
 def create_app():
     # create the app
     app = Flask(__name__)
@@ -32,6 +38,8 @@ def create_app():
     
     # initialize the app with the extension
     db.init_app(app)
+
+    app.jinja_env.filters['rupiah'] = format_rupiah
     
     with app.app_context():
         # Import models here so they're registered with SQLAlchemy

@@ -9,7 +9,7 @@
                 <div class="container">
                     <div class="row align-items-center py-5">
                         <div class="col-md-6 text-md-start text-center">
-                            <h1 class="display-4 fw-bold">Handcrafted with Love</h1>
+                            <h1 class="display-4 fw-bold">Dibuat dengan Cinta</h1>
                             <p class="lead">Kerajinan unik dari seniman seluruh dunia</p>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-start justify-content-center">
                                 <a href="{{ url_for('core.products') }}" class="btn btn-primary btn-lg px-4 me-md-2">Belanja Sekarang</a>
@@ -41,8 +41,8 @@
                             <h1 class="display-4 fw-bold">Dukung Seniman Lokal</h1>
                             <p class="lead">Menghargai karya seni lokal merupakan apresiasi terhadap budaya nasional</p>
                             <div class="d-grid gap-2 d-md-flex justify-content-md-start justify-content-center">
-                                <a href="{{ url_for('core.products') }}" class="btn btn-primary btn-lg px-4 me-md-2">Shop Handmade</a>
-                                <a href="#" class="btn btn-outline-secondary btn-lg px-4">Meet Our Artisans</a>
+                                <a href="{{ url_for('core.products') }}" class="btn btn-primary btn-lg px-4 me-md-2">Belanja Sekarang</a>
+                                <a href="#featured" class="btn btn-outline-secondary btn-lg px-4">Kerajinan terkini</a>
                             </div>
                         </div>
                         <div class="col-md-6 d-none d-md-block">
@@ -75,7 +75,7 @@
 
 <!-- Featured Categories -->
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Shop by Category</h2>
+    <h2 class="text-center mb-4">Kategori Kerajinan</h2>
     <div class="row g-4">
         {% for category in categories %}
         <div class="col-6 col-md-4 col-lg-2">
@@ -107,8 +107,8 @@
 <!-- Featured Products -->
 <div class="container mt-5" id="featured">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Featured Artisan Crafts</h2>
-        <a href="{{ url_for('core.products') }}" class="btn btn-outline-primary">View All</a>
+        <h2>Kerajinan Artisan Unggulan</h2>
+        <a href="{{ url_for('core.products') }}" class="btn btn-outline-primary">Lihat Semua</a>
     </div>
     
     <div class="row g-4">
@@ -116,7 +116,8 @@
         <div class="col-md-6 col-lg-3">
             <div class="card product-card h-100">
                 {% if item.image_url %}
-                <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}">
+                <img src="{{ url_for('static', filename='images/' + item.image_url) }}" class="card-img-top" alt="{{ item.title }}">
+                <!-- <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}"> -->
                 {% else %}
                 <div class="card-img-top product-placeholder">
                     <i class="fas fa-image fa-3x text-muted"></i>
@@ -129,21 +130,21 @@
                             {{ item.category.name }}
                         </span>
                         {% if item.discount_price %}
-                        <span class="badge bg-danger">Sale</span>
+                        <span class="badge bg-danger">Diskon</span>
                         {% endif %}
                     </div>
                     <h5 class="card-title">{{ item.title }}</h5>
                     <div class="product-price mb-3">
                         {% if item.discount_price %}
-                        <span class="text-muted text-decoration-line-through me-2">${{ item.price }}</span>
-                        <span class="fw-bold text-danger">${{ item.discount_price }}</span>
+                        <span class="text-muted text-decoration-line-through me-2">{{ item.price|rupiah }}</span>
+                        <span class="fw-bold text-danger">{{ item.discount_price|rupiah }}</span>
                         {% else %}
-                        <span class="fw-bold">${{ item.price }}</span>
+                        <span class="fw-bold">{{ item.price|rupiah }}</span>
                         {% endif %}
                     </div>
                     <div class="d-grid gap-2">
-                        <a href="{{ item.get_absolute_url() }}" class="btn btn-outline-primary">View Details</a>
-                        <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary">Add to Cart</a>
+                        <a href="{{ item.get_absolute_url() }}" class="btn btn-outline-primary">Lihat Detail</a>
+                        <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary">Tambah Keranjang</a>
                     </div>
                 </div>
             </div>
@@ -151,7 +152,7 @@
         {% else %}
         <div class="col-12">
             <div class="alert alert-info text-center">
-                No featured products available at the moment.
+                Tidak ada produk unggulan yang tersedia saat ini.
             </div>
         </div>
         {% endfor %}
@@ -163,11 +164,11 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h2 class="display-5 fw-bold">Meet Our Talented Artisans</h2>
-                <p class="lead">Discover the faces and stories behind our beautiful handcrafted items.</p>
+                <h2 class="display-5 fw-bold">Temui Pengrajin Kami yang Berbakat</h2>
+                <p class="lead">Temukan wajah dan cerita di balik barang-barang kerajinan tangan kami yang indah.</p>
             </div>
             <div class="col-md-4 text-md-end text-center mt-3 mt-md-0">
-                <a href="#" class="btn btn-light btn-lg">Artisan Stories</a>
+                <a href="#" class="btn btn-light btn-lg">Lihat Cerita</a>
             </div>
         </div>
     </div>
@@ -175,13 +176,14 @@
 
 <!-- Latest Products -->
 <div class="container mt-5">
-    <h2 class="text-center mb-4">New Arrivals</h2>
+    <h2 class="text-center mb-4">Terbaru</h2>
     <div class="row g-4">
         {% for item in latest_items[:8] %}
         <div class="col-md-6 col-lg-3">
             <div class="card product-card h-100">
                 {% if item.image_url %}
-                <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}">
+                <img src="{{ url_for('static', filename='images/' + item.image_url) }}" class="card-img-top" alt="{{ item.title }}">
+                <!-- <img src="{{ item.image_url }}" class="card-img-top" alt="{{ item.title }}"> -->
                 {% else %}
                 <div class="card-img-top product-placeholder">
                     <i class="fas fa-image fa-3x text-muted"></i>
@@ -200,15 +202,15 @@
                     <h5 class="card-title">{{ item.title }}</h5>
                     <div class="product-price mb-3">
                         {% if item.discount_price %}
-                        <span class="text-muted text-decoration-line-through me-2">${{ item.price }}</span>
-                        <span class="fw-bold text-danger">${{ item.discount_price }}</span>
+                        <span class="text-muted text-decoration-line-through me-2">{{ item.price|rupiah}}</span>
+                        <span class="fw-bold text-danger">{{ item.discount_price|rupiah }}</span>
                         {% else %}
-                        <span class="fw-bold">${{ item.price }}</span>
+                        <span class="fw-bold">{{ item.price|rupiah }}</span>
                         {% endif %}
                     </div>
                     <div class="d-grid gap-2">
-                        <a href="{{ item.get_absolute_url() }}" class="btn btn-outline-primary">View Details</a>
-                        <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary">Add to Cart</a>
+                        <a href="{{ item.get_absolute_url() }}" class="btn btn-outline-primary">Lihat Detail</a>
+                        <a href="{{ item.get_add_to_cart_url() }}" class="btn btn-primary">Tambah Keranjang</a>
                     </div>
                 </div>
             </div>
